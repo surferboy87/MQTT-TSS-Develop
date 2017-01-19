@@ -12,6 +12,7 @@ public class Bla {
 		System.out.println(msg.getMessageType());
 		RegisterMessage reg = (RegisterMessage) msg;
 		System.out.println(reg.getMqttTopic());
+		// kommentar
 
 	}
 	
