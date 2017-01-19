@@ -12,12 +12,15 @@ public class Base90Converter {
 		this.base = this.alphabet.length();
 	}
 	
-	public Base90Converter(String alphabet){
-		this.alphabet = alphabet;
-		this.base = alphabet.length();
+	public String getShortTopic(long number) {
+		return encodeToBase90(number);
 	}
 
-	private String encodeToBase(long number) {
+	public long getNumericRepresentation(String str) {
+		return decodeFromeBase90(str);
+	}
+
+	private String encodeToBase90(long number) {
 
 		long quotient = number / base;
 		int remainder = (int) (number % base);
@@ -26,18 +29,18 @@ public class Base90Converter {
 		if (quotient == 0) { // base case
 			return "" + this.alphabet.charAt(remainder);
 		} else {
-			return encodeToBase(quotient) + this.alphabet.charAt(remainder);
+			return encodeToBase90(quotient) + this.alphabet.charAt(remainder);
 		}
 	}
 
 	
-	private long decodeFromeBase(String str) {
+	private long decodeFromeBase90(String str) {
 		
 		//Recursive
 		if (str.length() == 1) {
 			return getNumberValue(str.charAt(0), str.length() - 1);
 		} else {
-			return decodeFromeBase(str.substring(1)) + getNumberValue(str.charAt(0), str.length() - 1);
+			return decodeFromeBase90(str.substring(1)) + getNumberValue(str.charAt(0), str.length() - 1);
 		}
 
 	}
@@ -50,14 +53,6 @@ public class Base90Converter {
 		BigDecimal b4 = b1.multiply(b2.pow(pow));
 
 		return b4.longValueExact();
-	}
-
-	public String getShortTopic(long number) {
-		return encodeToBase(number);
-	}
-
-	public long getNumericRepresentation(String str) {
-		return decodeFromeBase(str);
 	}
 
 }
