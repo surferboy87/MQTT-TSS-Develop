@@ -53,27 +53,28 @@ public class TssClient {
 	}
 	
 	public void sendData(AbstractMessage message) throws IOException{
-		System.out.println("sending now data to server...");
+		System.out.println("Client: sending now data to server...");
 		byte[] dataOut = this.encoder.encode(message);
 		this.dos.write(dataOut);
 		this.dos.flush();
-		System.out.println("data transmit finished");
+		System.out.println("Client: data transmission finished\n");
 		
 	}
 	
 	public AbstractMessage receiveData() throws IOException{
-		System.out.println("receiving data from server");
+		System.out.println("Client: receiving data from server...");
 
-		//byte[] data = null;
 		byte[] payload = null;
 		
 		int payloadLength = Utils.decodePayloadLenght(dis);
 		payload = new byte[payloadLength];
 		dis.read(payload, 0, payloadLength);
 		
+		System.out.print("Client received:");
 		for(byte b : payload){
-			System.out.println("Client received: " + b);
+			System.out.print(" " + b);
 		}
+		System.out.println();
 
 		//data = pps.processMsg(new ByteArrayInputStream(payload));
 		AbstractMessage messageIn = pps.processMsg(new ByteArrayInputStream(payload));
@@ -88,7 +89,7 @@ public class TssClient {
 		
 		try {
 			if(regularShutdown){
-				System.out.println("sending disconnect request...");
+				System.out.println("Client: sending disconnect request...");
 				this.requestedShutdown = true;
 				sendData(new DisconnectMessage());
 				AbstractMessage msg = receiveData();

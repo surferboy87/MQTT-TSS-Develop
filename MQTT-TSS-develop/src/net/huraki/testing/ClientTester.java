@@ -1,8 +1,9 @@
-package net.huraki.tss.comm;
+package net.huraki.testing;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
 
+import net.huraki.tss.comm.TssClient;
 import net.huraki.tss.messages.AbstractMessage;
 import net.huraki.tss.messages.ConAckMessage;
 import net.huraki.tss.messages.ConnectMessage;
@@ -22,19 +23,24 @@ public class ClientTester {
 		TssClient client = new TssClient("localhost", 18833);
 		try {
 			client.connect();
+			System.out.println("Tester: sending connectMessage");
+			System.out.println("Tester:" + conMsg.toString());
 			client.sendData(conMsg);
 			
 			AbstractMessage msg = client.receiveData();
 			if(msg.getMessageType() == AbstractMessage.CONNACK){
-				System.out.println("Connack received");
+				System.out.println("Tester: MessageType = ConAck");
 				ConAckMessage conAck = (ConAckMessage) msg;
-				System.out.println(conAck.toString());
-				System.out.println("Connection accepted: " + (conAck.getReturnCode() == TssConstants.ACCEPTED));
+				System.out.println("Tester: " + conAck.toString() + "\n");
+				System.out.println("Tester: Connection accepted: " + (conAck.getReturnCode() == TssConstants.ACCEPTED));
+				System.out.println();
+				System.out.println("Tester: sending registerMessage");
+				System.out.println(regMsg.toString());
 				client.sendData(regMsg);
 			}
 			msg = client.receiveData();
 			RegAckMessage regAck = (RegAckMessage) msg;
-			System.out.println(regAck.toString());
+			System.out.println("Tester: " + regAck.toString());
 			client.shutdown(true);
 			
 		} catch (UnknownHostException e) {

@@ -27,7 +27,7 @@ public class RegAckEncoder extends AbstractEncoder{
 		ByteArrayOutputStream temp = new ByteArrayOutputStream();
 		
 		RegAckMessage regAck = (RegAckMessage) msg;
-		System.out.println(regAck.toString());
+		//System.out.println(regAck.toString());
 		try {
 			temp.write(TssConstants.REGACK_MSG_TYPE);
 			
@@ -40,9 +40,9 @@ public class RegAckEncoder extends AbstractEncoder{
 				temp.write(shortTopic);
 			}
 			byte[] msgid = Utils.encodeMsgIdToByte(regAck.getMsgId());
-			for(byte m : msgid){
-				System.out.println(m);
-			}
+//			for(byte m : msgid){
+//				System.out.println(m);
+//			}
 			temp.write(msgid);
 			temp.write(regAck.getReturnCode());
 			temp.close();

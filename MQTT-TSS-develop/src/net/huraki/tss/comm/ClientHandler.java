@@ -48,7 +48,7 @@ public class ClientHandler implements Runnable {
 			
 			this.dis = new DataInputStream(new BufferedInputStream(this.clientSocket.getInputStream()));
 			this.dos = new DataOutputStream(new BufferedOutputStream(this.clientSocket.getOutputStream()));
-			System.out.println("Listening for data from " + this.clientSocket.getRemoteSocketAddress());
+			System.out.println("ClientHandler: Listening for data from " + this.clientSocket.getRemoteSocketAddress() + "\n");
 		} catch (SocketException e) {
 			//ignored here
 		} catch (IOException e) {
@@ -72,9 +72,11 @@ public class ClientHandler implements Runnable {
 				byte[] payload = new byte[payloadLength];
 				dis.read(payload, 0, payloadLength);
 				
+				System.out.print("ClientHandler received:");
 				for(byte b : payload){
-					System.out.println("Received: " + b);
+					System.out.print(" " + b);
 				}
+				System.out.println();
 				
 //				byte[] dataForClient = pps.processMsg(new ByteArrayInputStream(payload));
 //				for(byte b : dataForClient){
@@ -83,13 +85,21 @@ public class ClientHandler implements Runnable {
 				AbstractMessage messageOut = pps.processMsg(new ByteArrayInputStream(payload));
 				byte[] data = this.encoder.encode(messageOut);
 				
+				System.out.println("ClientHandler: sending data to Client...");
+				System.out.print("ClientHandler:");
+				for(byte d : data){
+					System.out.print(" " + d);
+				}
+				System.out.println();
+				
 				dos.write(data);
 				dos.flush();
+				System.out.println("ClientHandler: transmission finished\n");
 				
 				if(messageOut.getMessageType() == AbstractMessage.DISCONNECT){
-					System.out.println("disconnect from client");
+					System.out.println("ClientHandler: disconnect from client");
 					Thread.currentThread().interrupt();
-					System.out.println(Thread.currentThread().isInterrupted());
+					//System.out.println(Thread.currentThread().isInterrupted());
 				}
 			}
 				
@@ -108,9 +118,10 @@ public class ClientHandler implements Runnable {
 			ioe.printStackTrace();
 		} finally {
 			try {
-				System.out.println("Closing now the socket");
+				System.out.print("Closing now the socket...");
 				this.clientSocket.close();
 				Thread.currentThread().interrupt();
+				System.out.print("done");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

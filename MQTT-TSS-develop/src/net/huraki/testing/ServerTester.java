@@ -1,4 +1,6 @@
-package net.huraki.tss.comm;
+package net.huraki.testing;
+
+import net.huraki.tss.comm.ThreadPoolTssServer;
 
 
 public class ServerTester {

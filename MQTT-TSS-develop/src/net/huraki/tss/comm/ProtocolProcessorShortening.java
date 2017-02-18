@@ -40,15 +40,15 @@ public class ProtocolProcessorShortening {
 			messageOut = processConAck(messageIn);
 			break;
 		case AbstractMessage.REGISTER:
-			System.out.println("RegisterMessage received");
+			System.out.println("Process: RegisterMessage received");
 			messageOut = processRegister(messageIn);
 			break;
 		case AbstractMessage.REGACK:
-			System.out.println("RegAckMessage received");
+			System.out.println("Process: RegAckMessage received");
 			messageOut = processRegAck(messageIn);
 			break;
 		case AbstractMessage.DISCONNECT:
-			System.out.println("DisconnectMessage received");
+			System.out.println("Process: DisconnectMessage received");
 			messageOut = processDisconnect();
 			break;
 		default:
@@ -81,7 +81,7 @@ public class ProtocolProcessorShortening {
 
 	private AbstractMessage processRegister(AbstractMessage messageIn) {
 		RegisterMessage regMsg = (RegisterMessage) messageIn;
-		System.out.println(regMsg.toString());
+		System.out.println("Process: " + regMsg.toString());
 		RegAckMessage regAckMsg = new RegAckMessage("short", 5, regMsg.getMsgId(), TssConstants.ACCEPTED);
 		return regAckMsg;
 	}

@@ -42,7 +42,7 @@ public class ThreadPoolTssServer extends Thread {
 	 */
 	@Override
 	public void run() {
-		System.out.println("Server: Accepting incoming connections on port " + this.listenSocket.getLocalPort());
+		System.out.println("Server: Accepting incoming connections on port " + this.listenSocket.getLocalPort() +"\n");
 		
 		while(this.keepRunning && !this.isInterrupted()){
 			
